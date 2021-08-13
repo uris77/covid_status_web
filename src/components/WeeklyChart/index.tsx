@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-  VictoryArea,
   VictoryAxis,
   VictoryChart,
   VictoryLegend,
+  VictoryLine,
   VictoryTheme,
 } from 'victory';
 
@@ -26,12 +26,13 @@ const WeeklyChart = (props: WeeklyChartProps): JSX.Element => {
         title={'COVID19 Seven Day Rolling Average 2021'}
         centerTitle
         orientation={'horizontal'}
-        gutter={20}
+        gutter={60}
         style={{ border: { stroke: 'black' }, title: { fontSize: 20 } }}
         data={[]}
       />
       <VictoryAxis
-        style={{ tickLabels: { angle: -60 } }}
+        style={{ tickLabels: { angle: -60 }, axisLabel: { padding: 50 } }}
+        label={'Weeks'}
         tickFormat={(x) => {
           // divide by 4 to estimate months, and return
           // the name of the month for the first value.
@@ -72,15 +73,25 @@ const WeeklyChart = (props: WeeklyChartProps): JSX.Element => {
           return month;
         }}
       />
-      <VictoryAxis dependentAxis />
-      <VictoryArea
+      <VictoryAxis
+        dependentAxis
+        style={{ axisLabel: { padding: 30 } }}
+        label={'Reported Cases'}
+      />
+      <VictoryLine
         data={data.map((d) => ({
           week: d.week,
           count: d.count,
         }))}
         x={'week'}
         y={'count'}
-        interpolation={'stepBefore'}
+        style={{
+          data: {
+            stroke: '#c43a31',
+            strokeWidth: ({ data }) => data.length / 162,
+          },
+        }}
+        interpolation={'linear'}
       />
     </VictoryChart>
   );

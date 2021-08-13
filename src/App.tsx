@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { dark, Grommet, Main } from 'grommet';
+import { Box, dark, Grommet, Main } from 'grommet';
 import Spinner from './components/Spinner/Spinner';
 import _ from 'lodash';
 import WeeklyChart, { WeeklyCaseCount } from './components/WeeklyChart';
@@ -107,9 +107,16 @@ function App() {
       >
         {data.loading && <Spinner size={228} />}
         {!data.loading && !data.error && (
-          <>
+          <Box
+            align={'center'}
+            margin={'large'}
+            gap={'large'}
+            fill
+            flex
+            responsive
+          >
             <WeeklyChart data={data.data as [WeeklyCaseCount]} />
-          </>
+          </Box>
         )}
       </Main>
     </Grommet>
