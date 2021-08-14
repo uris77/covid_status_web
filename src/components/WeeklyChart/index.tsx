@@ -5,11 +5,15 @@ import {
   VictoryLegend,
   VictoryLine,
   VictoryTheme,
+  VictoryTooltip,
+  VictoryVoronoiContainer,
 } from 'victory';
+import { getISODay, getISOWeek, getISOWeekYear, parseISO } from 'date-fns';
 
 export interface WeeklyCaseCount {
   count: number;
   week: string;
+  reportingDate: Date;
 }
 
 export interface WeeklyChartProps {
@@ -19,7 +23,11 @@ export interface WeeklyChartProps {
 const WeeklyChart = (props: WeeklyChartProps): JSX.Element => {
   const { data } = props;
   return (
-    <VictoryChart theme={VictoryTheme.material} width={800}>
+    <VictoryChart
+      theme={VictoryTheme.material}
+      width={800}
+      containerComponent={<VictoryVoronoiContainer />}
+    >
       <VictoryLegend
         x={225}
         y={10}
@@ -34,37 +42,34 @@ const WeeklyChart = (props: WeeklyChartProps): JSX.Element => {
         style={{ tickLabels: { angle: -60 }, axisLabel: { padding: 50 } }}
         label={'Weeks'}
         tickFormat={(x) => {
-          // divide by 4 to estimate months, and return
-          // the name of the month for the first value.
-          const [year, week] = x.split('-');
-          console.log(year);
+          const dt = parseISO(x);
           let month = 'Jan';
-          switch (week) {
-            case '1':
+          switch (`${getISOWeekYear(dt)}-${getISOWeek(dt)}-${getISODay(dt)}`) {
+            case '2021-1-4':
               month = 'Jan';
               break;
-            case '5':
+            case `2021-5-1`:
               month = 'Feb';
               break;
-            case '9':
+            case `2021-9-1`:
               month = 'Mar';
               break;
-            case '13':
+            case '2021-13-1':
               month = 'Apr';
               break;
-            case '17':
+            case '2021-17-1':
               month = 'May';
               break;
-            case '22':
+            case '2021-22-1':
               month = 'Jun';
               break;
-            case '26':
+            case '2021-26-1':
               month = 'Jul';
               break;
-            case '31':
+            case '2021-31-1':
               month = 'Aug';
               break;
-            case '35':
+            case '2021-35-1':
               month = 'Sep';
               break;
             default:
@@ -79,11 +84,13 @@ const WeeklyChart = (props: WeeklyChartProps): JSX.Element => {
         label={'Reported Cases'}
       />
       <VictoryLine
+        labelComponent={<VictoryTooltip />}
         data={data.map((d) => ({
-          week: d.week,
+          reportingDate: d.reportingDate,
           count: d.count,
+          label: d.count,
         }))}
-        x={'week'}
+        x={'reportingDate'}
         y={'count'}
         style={{
           data: {
