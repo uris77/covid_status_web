@@ -25,6 +25,11 @@ const WeeklyChart = (props: WeeklyChartProps): JSX.Element => {
   return (
     <VictoryChart
       theme={VictoryTheme.material}
+      style={{
+        parent: {
+          border: '1px solid #ccc',
+        },
+      }}
       width={800}
       containerComponent={<VictoryVoronoiContainer />}
     >
@@ -39,7 +44,11 @@ const WeeklyChart = (props: WeeklyChartProps): JSX.Element => {
         data={[]}
       />
       <VictoryAxis
-        style={{ tickLabels: { angle: -60 }, axisLabel: { padding: 50 } }}
+        style={{
+          tickLabels: { angle: -60 },
+          axisLabel: { padding: 50 },
+          grid: { strokeWidth: 0 },
+        }}
         label={'Weeks'}
         tickFormat={(x) => {
           const dt = parseISO(x);
@@ -95,7 +104,7 @@ const WeeklyChart = (props: WeeklyChartProps): JSX.Element => {
         style={{
           data: {
             stroke: '#c43a31',
-            strokeWidth: ({ data }) => data.length / 162,
+            strokeWidth: ({ data }) => data.length / 100,
           },
         }}
         interpolation={'linear'}

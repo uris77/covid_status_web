@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { Box, dark, Grommet, Main } from 'grommet';
+import { Box, dark, Footer, Grommet, Image, Main, Stack, Text } from 'grommet';
 import Spinner from './components/Spinner/Spinner';
 import _ from 'lodash';
 import WeeklyChart, { WeeklyCaseCount } from './components/WeeklyChart';
@@ -105,7 +105,20 @@ function App() {
         responsive={true}
         background={'light-3'}
       >
-        {data.loading && <Spinner size={228} />}
+        {data.loading && (
+          <Stack anchor={'center'} alignSelf={'center'} fill>
+            <Box pad={'large'} align={'center'}>
+              <Spinner size={912} />
+            </Box>
+            <Box pad={'large'} margin={'xxlarge'}>
+              <Image
+                src={'openstep-logo.jpg'}
+                fit={'cover'}
+                opacity={'medium'}
+              />
+            </Box>
+          </Stack>
+        )}
         {!data.loading && !data.error && (
           <Box
             align={'center'}
@@ -118,6 +131,11 @@ function App() {
             <WeeklyChart data={data.data as [WeeklyCaseCount]} />
           </Box>
         )}
+        <Footer background='light-2' justify='center' pad='small'>
+          <Text textAlign='center' size='small'>
+            Powered By © <a href={'https://openstep.bz'}>Openstep</a>
+          </Text>
+        </Footer>
       </Main>
     </Grommet>
   );
