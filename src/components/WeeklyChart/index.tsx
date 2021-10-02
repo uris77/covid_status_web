@@ -81,6 +81,15 @@ const WeeklyChart = (props: WeeklyChartProps): JSX.Element => {
             case '2021-35-1':
               month = 'Sep';
               break;
+            case '2021-40-1':
+              month = 'Oct';
+              break;
+            case '2021-44-1':
+              month = 'Nov';
+              break;
+            case '2021-49-1':
+              month = 'Dec';
+              break;
             default:
               month = '';
           }
